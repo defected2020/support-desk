@@ -1,21 +1,8 @@
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+
 import { FaQuestionCircle, FaTicketAlt } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
 
 function Home() {
-  const navigate = useNavigate()
-
-  const { user } = useSelector((state) => state.auth)
-
-  useEffect(() => {
-    //Redirect when logged in
-    if (!user) {
-      navigate('/login')
-    }
-  }, [user, navigate])
-
   return (
     <>
       <section className='heading'>

@@ -46,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 })
 
-// @desc Login new user
+// @desc Login user
 // @route /api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res) => {
