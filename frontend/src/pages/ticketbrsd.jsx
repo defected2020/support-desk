@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  getTicket,
-  openTicket,
-  closeTicket,
-} from '../features/tickets/ticketSlice'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import { FaPlus } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
+import { getTicket, closeTicket } from '../features/tickets/ticketSlice'
 import {
   getNotes,
   createNote,
   reset as notesReset,
 } from '../features/notes/noteSlice'
 import { useParams, useNavigate } from 'react-router-dom'
-import { BackButton } from '../components/BackButton'
+import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import NoteItem from '../components/NoteItem'
 
@@ -40,7 +36,6 @@ function Ticket() {
     (state) => state.tickets
   )
 
-  //rename isLoading as it is already declared above
   const { notes, isLoading: notesIsLoading } = useSelector(
     (state) => state.notes
   )
@@ -48,8 +43,6 @@ function Ticket() {
   const params = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  //gets the ticket id from the url
   const { ticketId } = useParams()
 
   useEffect(() => {
@@ -62,16 +55,11 @@ function Ticket() {
     // eslint-disable-next-line
   }, [isError, message, ticketId])
 
-  // Toggle Ticket Status
-  const TicketStatusToggle = () => {
-    if (ticket.status === 'new') {
-      dispatch(closeTicket(ticketId))
-      toast.success('Ticket Closed')
-      navigate('/tickets')
-    } else {
-      dispatch(openTicket(ticketId))
-      toast.success('Ticket Reopened')
-    }
+  // Close ticket
+  const onTicketClose = () => {
+    dispatch(closeTicket(ticketId))
+    toast.success('Ticket Closed')
+    navigate('/tickets')
   }
 
   // Create note submit
@@ -82,12 +70,13 @@ function Ticket() {
   }
 
   // Open/close modal
-
   const openModal = () => setModalIsOpen(true)
   const closeModal = () => setModalIsOpen(false)
+
   if (isLoading || notesIsLoading) {
     return <Spinner />
   }
+
   if (isError) {
     return <h3>Something Went Wrong</h3>
   }
@@ -103,20 +92,20 @@ function Ticket() {
           </span>
         </h2>
         <h3>
-          Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-Us')}
+          Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-US')}
         </h3>
-        <h3>Product: {ticket.product} </h3>
+        <h3>Product: {ticket.product}</h3>
         <hr />
         <div className='ticket-desc'>
-          <h3>Description of Issue: </h3>
+          <h3>Description of Issue</h3>
           <p>{ticket.description}</p>
         </div>
+        <h2>Notes</h2>
       </header>
 
       {ticket.status !== 'closed' && (
         <button onClick={openModal} className='btn'>
-          <FaPlus />
-          Add Note
+          <FaPlus /> Add Note
         </button>
       )}
 
@@ -147,22 +136,13 @@ function Ticket() {
         </form>
       </Modal>
 
-      {notes.length > 0 && <h3>Notes</h3>}
-      {console.log(notes)}
       {notes.map((note) => (
         <NoteItem key={note._id} note={note} />
       ))}
-      {ticket.status === 'new' ? (
-        <button
-          onClick={TicketStatusToggle}
-          className='btn btn-block btn-danger'>
+
+      {ticket.status !== 'closed' && (
+        <button onClick={onTicketClose} className='btn btn-block btn-danger'>
           Close Ticket
-        </button>
-      ) : (
-        <button
-          onClick={TicketStatusToggle}
-          className='btn btn-block btn-success'>
-          Reopen Closed Ticket
         </button>
       )}
     </div>
