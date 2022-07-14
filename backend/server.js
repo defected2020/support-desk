@@ -1,6 +1,7 @@
-const path = require('path')
 const express = require('express')
+const path = require('path')
 const colors = require('colors')
+// this initializes dotenv
 const dotenv = require('dotenv').config()
 const { errorHandler } = require('./middleware/errorMiddleware')
 const connectDB = require('./config/db')
@@ -8,10 +9,11 @@ const PORT = process.env.PORT || 8000
 
 //connect to databse
 connectDB()
-
 const app = express()
 
+///middleware to allow us to send raw json // useful to get data from the body
 app.use(express.json())
+//if we want to accept the url encoded form
 app.use(express.urlencoded({ extended: false }))
 
 // Routes

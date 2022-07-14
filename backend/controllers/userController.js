@@ -2,11 +2,14 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
+
 // @desc Register a new user
 // @route /api/users
 // @access Public
 
+//entire function wrapped with asyncHandler
 const registerUser = asyncHandler(async (req, res) => {
+  //destructured form req.body
   const { name, email, password } = req.body
 
   // Validation
