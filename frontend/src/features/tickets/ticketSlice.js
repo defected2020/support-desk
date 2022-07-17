@@ -16,6 +16,7 @@ export const createTicket = createAsyncThunk(
   'tickets/create',
   async (ticketData, thunkAPI) => {
     try {
+      //thunkAPI allows us to get anything from any other state that we
       const token = thunkAPI.getState().auth.user.token
       return await ticketService.createTicket(ticketData, token)
     } catch (error) {
@@ -157,15 +158,11 @@ export const ticketSlice = createSlice({
     })
     builder.addCase(closeTicket.fulfilled, (state, action) => {
       state.isLoading = false
-      state.tickets.map((ticket) =>
-        ticket._id === action.payload._id ? (ticket.status = 'closed') : ticket
-      )
+      state.ticket = action.payload
     })
     builder.addCase(openTicket.fulfilled, (state, action) => {
       state.isLoading = false
-      state.tickets.map((ticket) =>
-        ticket._id === action.payload._id ? (ticket.status = 'new') : ticket
-      )
+      state.ticket = action.payload
     })
   },
 })

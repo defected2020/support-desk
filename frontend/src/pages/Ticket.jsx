@@ -148,7 +148,6 @@ function Ticket() {
       </Modal>
 
       {notes.length > 0 && <h3>Notes</h3>}
-      {console.log(notes)}
       {notes.map((note) => (
         <NoteItem key={note._id} note={note} />
       ))}

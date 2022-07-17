@@ -7,8 +7,9 @@ const { errorHandler } = require('./middleware/errorMiddleware')
 const connectDB = require('./config/db')
 const PORT = process.env.PORT || 8000
 
-//connect to databse
+//connect to database
 connectDB()
+
 const app = express()
 
 ///middleware to allow us to send raw json // useful to get data from the body

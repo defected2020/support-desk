@@ -51,7 +51,7 @@ const closeTicket = async (ticketId, token) => {
     { status: 'closed' },
     config
   )
-
+  console.log(response.data)
   return response.data
 }
 
@@ -67,7 +67,7 @@ const openTicket = async (ticketId, token) => {
     { status: 'new' },
     config
   )
-
+  console.log(response.data)
   return response.data
 }
 

@@ -1,4 +1,6 @@
 const asyncHandler = require('express-async-handler')
+
+// needed to hash the password (we cant put a plain text password in the database)
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
@@ -33,11 +35,13 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     name,
     email,
+    //sets password as hashedPassword
     password: hashedPassword,
   })
 
   if (user) {
     res.status(201).json({
+      //mongodb stores ids as _id
       _id: user._id,
       name: user.name,
       email: user.email,
