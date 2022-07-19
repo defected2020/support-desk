@@ -4,8 +4,22 @@ import { useSelector } from 'react-redux'
 export const useAuthStatus = () => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [checkingStatus, setCheckingStatus] = useState(true)
+  const [adminAccount, setAdminAccount] = useState(false)
 
   const { user } = useSelector((state) => state.auth)
+  const { isAdmin } = useSelector((state) => state.auth.user)
+
+  useEffect(() => {
+    if (isAdmin) {
+      setAdminAccount(true)
+    } else {
+      setAdminAccount(false)
+    }
+
+    setCheckingStatus(false)
+
+    return
+  }, [isAdmin])
 
   useEffect(() => {
     if (user) {
@@ -19,5 +33,5 @@ export const useAuthStatus = () => {
     return
   }, [user])
 
-  return { loggedIn, checkingStatus }
+  return { loggedIn, checkingStatus, adminAccount }
 }

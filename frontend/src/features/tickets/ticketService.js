@@ -51,7 +51,7 @@ const closeTicket = async (ticketId, token) => {
     { status: 'closed' },
     config
   )
-  console.log(response.data)
+
   return response.data
 }
 
@@ -71,12 +71,25 @@ const openTicket = async (ticketId, token) => {
   return response.data
 }
 
+//Get user tickets
+const getAdminTickets = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(API_URL + '/admin/tickets', config)
+
+  return response.data
+}
+
 const ticketService = {
   createTicket,
   getTickets,
   getTicket,
   closeTicket,
   openTicket,
+  getAdminTickets,
 }
 
 export default ticketService

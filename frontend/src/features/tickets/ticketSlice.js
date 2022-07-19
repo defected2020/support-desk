@@ -111,6 +111,26 @@ export const openTicket = createAsyncThunk(
   }
 )
 
+// Get admin tickets
+export const getAdminTickets = createAsyncThunk(
+  'tickets/getAdminTickets',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await ticketService.getAdminTickets(token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const ticketSlice = createSlice({
   name: 'ticket',
   initialState,
@@ -163,6 +183,19 @@ export const ticketSlice = createSlice({
     builder.addCase(openTicket.fulfilled, (state, action) => {
       state.isLoading = false
       state.ticket = action.payload
+    })
+    builder.addCase(getAdminTickets.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(getAdminTickets.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.tickets = action.payload
+    })
+    builder.addCase(getAdminTickets.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.message = action.payload
     })
   },
 })

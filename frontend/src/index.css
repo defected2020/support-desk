@@ -223,7 +223,11 @@ h3 {
 }
 
 .ticket-headings {
-  font-weight: 700;
+  font-weight: 600;
+}
+
+.ticket-headings-admin {
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .status {

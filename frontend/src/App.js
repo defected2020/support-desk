@@ -2,8 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import PrivateRoute from './components/PrivateRoute'
+import AdminRoute from './components/AdminRoute'
 import Header from './components/Header'
 import Home from './pages/Home'
+import AdminHome from './pages/admin/AdminHome'
+import AdminTickets from './pages/admin/AdminTickets'
+import AdminTicket from './pages/admin/AdminTicket'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import NewTicket from './pages/NewTicket'
@@ -28,6 +32,15 @@ function App() {
             </Route>
             <Route path='/ticket/:ticketId' element={<PrivateRoute />}>
               <Route path='/ticket/:ticketId' element={<Ticket />} />
+            </Route>
+            <Route path='/admin' element={<AdminRoute />}>
+              <Route path='/admin' element={<AdminHome />} />
+            </Route>
+            <Route path='/admin/new-tickets' element={<AdminRoute />}>
+              <Route path='/admin/new-tickets' element={<AdminTickets />} />
+            </Route>
+            <Route path='/admin/ticket/:ticketId' element={<AdminRoute />}>
+              <Route path='/admin/ticket/:ticketId' element={<AdminTicket />} />
             </Route>
           </Routes>
         </div>

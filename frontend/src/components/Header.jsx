@@ -19,6 +19,14 @@ function Header() {
         <Link to='/'>Support Desk</Link>
       </div>
       <ul>
+        {user && user.isAdmin === true && (
+          <li>
+            <Link to='/admin'>
+              <FaUser /> Admin
+            </Link>
+          </li>
+        )}
+
         {user ? (
           <li>
             <button className='btn' onClick={onLogout}>

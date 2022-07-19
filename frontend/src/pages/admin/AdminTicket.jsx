@@ -4,7 +4,7 @@ import {
   getTicket,
   openTicket,
   closeTicket,
-} from '../features/tickets/ticketSlice'
+} from '../../features/tickets/ticketSlice'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import { FaPlus } from 'react-icons/fa'
@@ -12,11 +12,11 @@ import {
   getNotes,
   createNote,
   reset as notesReset,
-} from '../features/notes/noteSlice'
+} from '../../features/notes/noteSlice'
 import { useParams, useNavigate } from 'react-router-dom'
-import { BackButton } from '../components/BackButton'
-import Spinner from '../components/Spinner'
-import NoteItem from '../components/NoteItem'
+import { BackButton } from '../../components/BackButton'
+import Spinner from '../../components/Spinner'
+import NoteItem from '../../components/NoteItem'
 
 const customStyles = {
   content: {
@@ -68,7 +68,7 @@ function Ticket() {
     if (ticket.status === 'new') {
       dispatch(closeTicket(ticketId))
       toast.success('Ticket Closed')
-      navigate('/tickets')
+      navigate('/admin/new-tickets')
     } else {
       dispatch(openTicket(ticketId))
       toast.success('Ticket Reopened')
@@ -96,7 +96,7 @@ function Ticket() {
   return (
     <div className='ticket-page'>
       <header className='ticket-header'>
-        <BackButton url='/tickets' />
+        <BackButton url='/admin/new-tickets' />
         <h2>
           Ticket ID: {ticket._id}
           <span className={`status status-${ticket.status}`}>
