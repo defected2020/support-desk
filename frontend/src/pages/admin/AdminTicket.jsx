@@ -51,7 +51,6 @@ function Ticket() {
 
   //gets the ticket id from the url
   const { ticketId } = useParams()
-  console.log(ticketId)
 
   useEffect(() => {
     if (isError) {
@@ -93,14 +92,35 @@ function Ticket() {
     return <h3>Something Went Wrong</h3>
   }
 
+  // Change css class for priority
+
+  const priorityIndicator = () => {
+    const highPriority = 'priority-high'
+    const mediumPriority = 'priority-medium'
+    const lowPriority = 'priority-low'
+    if (ticket.priority === 'High Priority') {
+      return highPriority
+    } else if (ticket.priority === 'Medium Priority') {
+      return mediumPriority
+    } else {
+      return lowPriority
+    }
+  }
+
   return (
     <div className='ticket-page'>
       <header className='ticket-header'>
         <BackButton url='/admin/new-tickets' />
         <h2>
-          Ticket ID: {ticket._id}
+          Customer Name: {ticket.fullName}
           <span className={`status status-${ticket.status}`}>
             {ticket.status}
+          </span>
+        </h2>
+        <h2>
+          Ticket ID: {ticket._id}
+          <span className={`priority ${priorityIndicator()}`}>
+            {ticket.priority}
           </span>
         </h2>
         <h3>

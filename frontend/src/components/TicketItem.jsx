@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 function TicketItem({ ticket }) {
   const { user } = useSelector((state) => state.auth)
-  console.log(user)
   return (
     <div className='ticket'>
       <div>{new Date(ticket.createdAt).toLocaleString('en-US')}</div>

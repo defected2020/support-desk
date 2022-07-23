@@ -230,6 +230,39 @@ h3 {
   grid-template-columns: repeat(5, 1fr);
 }
 
+.ticket-status {
+  margin: auto;
+}
+
+.ticket-control {
+  display: flex;
+  justify-content: space-between;
+}
+
+.back-btn {
+}
+
+.filter {
+  border: 1px solid #e8e8e8;
+  padding: 10px;
+  border-radius: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.filter-arrow {
+  border: 1px solid #e8e8e8;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.filter-arrow-asc {
+  border: 1px solid #e8e8e8;
+  background-color: #999797;
+  padding: 10px;
+  border-radius: 6px;
+}
+
 .status {
   background-color: #333;
   color: #fff;
@@ -239,6 +272,7 @@ h3 {
   border-radius: 10px;
   font-size: 16px;
   text-align: center;
+  margin-bottom: 5px;
 }
 
 .status-new {
@@ -253,8 +287,31 @@ h3 {
   border-radius: 10px;
 }
 
-.status-closed {
-  background-color: darkred;
+.priority {
+  background-color: #333;
+  color: #fff;
+  width: 100px;
+  padding: 0 20px;
+  justify-self: center;
+  border-radius: 10px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.priority-high {
+  background-color: red;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.priority-medium {
+  background-color: yellow;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.priority-low {
+  background-color: green;
   color: #fff;
   border-radius: 10px;
 }
@@ -262,6 +319,10 @@ h3 {
 .ticket-page {
   position: relative;
   text-align: left;
+}
+
+.ticket-page h2 {
+  margin-bottom: 0px;
 }
 
 .ticket-page h2 {

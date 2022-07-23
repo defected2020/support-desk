@@ -67,7 +67,6 @@ const openTicket = async (ticketId, token) => {
     { status: 'new' },
     config
   )
-  console.log(response.data)
   return response.data
 }
 

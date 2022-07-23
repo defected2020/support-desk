@@ -11,7 +11,7 @@ function AdminHome() {
       </section>
 
       <Link to='/admin/new-tickets' className='btn btn-reverse btn-block'>
-        <FaQuestionCircle /> New Tickets
+        <FaQuestionCircle /> All Tickets
       </Link>
 
       <Link to='/admin/closed-tickets' className='btn btn-block'>

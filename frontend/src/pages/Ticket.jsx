@@ -51,7 +51,6 @@ function Ticket() {
 
   //gets the ticket id from the url
   const { ticketId } = useParams()
-  console.log(ticketId)
 
   useEffect(() => {
     if (isError) {

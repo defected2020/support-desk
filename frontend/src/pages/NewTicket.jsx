@@ -16,6 +16,7 @@ function NewTicket() {
   const [email] = useState(user.email)
   const [product, setProduct] = useState('iPhone')
   const [description, setDescription] = useState('')
+  const [priority, setPriority] = useState('Low Priority')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ function NewTicket() {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    dispatch(createTicket({ product, description }))
+    dispatch(createTicket({ product, description, priority }))
   }
 
   if (isLoading) {
@@ -69,6 +70,18 @@ function NewTicket() {
               <option value='Macbook Pro'>Macbook Pro</option>
               <option value='iMac'>iMac</option>
               <option value='iPad'>iPad</option>
+            </select>
+          </div>
+          <div className='form-group'>
+            <label htmlFor='Priority'>Priority</label>
+            <select
+              name='priority'
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              id='product'>
+              <option value='Low Priority'>Low Priority</option>
+              <option value='Medium Priority'>Medium Priority</option>
+              <option value='High Priority'>High Priority</option>
             </select>
           </div>
           <div className='form-group'>

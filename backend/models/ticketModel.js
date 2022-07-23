@@ -7,6 +7,9 @@ const ticketSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    fullName: {
+      type: String,
+    },
     product: {
       type: String,
       required: [true, 'Please select a product'],
@@ -15,6 +18,11 @@ const ticketSchema = mongoose.Schema(
     description: {
       type: String,
       required: [true, 'Please enter a description of the issue'],
+    },
+    priority: {
+      type: String,
+      required: true,
+      enum: ['Low Priority', 'Medium Priority', 'High Priority'],
     },
     status: {
       type: String,

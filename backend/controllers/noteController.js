@@ -35,6 +35,7 @@ const getNotes = asyncHandler(async (req, res) => {
 const addNote = asyncHandler(async (req, res) => {
   //Get user using the id in the JWT
   const user = await User.findById(req.user.id)
+  console.log(user)
 
   if (!user) {
     res.status(401)
@@ -43,19 +44,29 @@ const addNote = asyncHandler(async (req, res) => {
 
   const ticket = await Ticket.findById(req.params.ticketId)
 
-  if (ticket.user.toString() !== req.user.id) {
-    res.status(401)
-    throw new Error('User not authorized')
+  // if (ticket.user.toString() !== req.user.id) {
+  //   res.status(401)
+  //   throw new Error('User not authorized')
+  // }
+
+  if (user.isAdmin) {
+    const note = await Note.create({
+      text: req.body.text,
+      isStaff: true,
+      ticket: req.params.ticketId,
+      user: req.user.id,
+    })
+    res.status(200).json(note)
+  } else {
+    const note = await Note.create({
+      text: req.body.text,
+      isStaff: false,
+      ticket: req.params.ticketId,
+      user: req.user.id,
+    })
+
+    res.status(200).json(note)
   }
-
-  const note = await Note.create({
-    text: req.body.text,
-    isStaff: false,
-    ticket: req.params.ticketId,
-    user: req.user.id,
-  })
-
-  res.status(200).json(note)
 })
 
 module.exports = {

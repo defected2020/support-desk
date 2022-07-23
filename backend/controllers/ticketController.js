@@ -56,7 +56,7 @@ const getTicket = asyncHandler(async (req, res) => {
 // @access Private
 
 const createTicket = asyncHandler(async (req, res) => {
-  const { product, description } = req.body
+  const { product, description, priority } = req.body
 
   if (!product || !description) {
     res.status(400)
@@ -64,7 +64,6 @@ const createTicket = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findById(req.user.id)
-  console.log(user)
 
   if (!user) {
     res.status(401)
@@ -74,6 +73,8 @@ const createTicket = asyncHandler(async (req, res) => {
   const ticket = await Ticket.create({
     product,
     description,
+    priority,
+    fullName: user.name,
     user: req.user.id,
     status: 'new',
   })

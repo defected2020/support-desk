@@ -136,6 +136,29 @@ export const ticketSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
+    sortItems: (state, action) => {
+      let sortBy = action.payload[0]
+      let direction = action.payload[1]
+      console.log(sortBy)
+
+      if (direction === 'asc') {
+        state.tickets = state.tickets.sort(function (a, b) {
+          var nameA = a[sortBy],
+            nameB = b[sortBy]
+          if (nameA < nameB) return -1
+          if (nameA > nameB) return 1
+          return 0
+        })
+      } else {
+        state.tickets = state.tickets.sort(function (a, b) {
+          var nameA = a[sortBy],
+            nameB = b[sortBy]
+          if (nameA > nameB) return -1
+          if (nameA < nameB) return 1
+          return 0
+        })
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createTicket.pending, (state) => {
@@ -200,5 +223,5 @@ export const ticketSlice = createSlice({
   },
 })
 
-export const { reset } = ticketSlice.actions
+export const { reset, sortItems } = ticketSlice.actions
 export default ticketSlice.reducer
