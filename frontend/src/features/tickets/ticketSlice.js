@@ -5,6 +5,7 @@ import ticketService from './ticketService'
 const initialState = {
   tickets: [],
   ticket: {},
+  filteredTickets: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -139,10 +140,9 @@ export const ticketSlice = createSlice({
     sortItems: (state, action) => {
       let sortBy = action.payload[0]
       let direction = action.payload[1]
-      console.log(sortBy)
 
       if (direction === 'asc') {
-        state.tickets = state.tickets.sort(function (a, b) {
+        state.filteredTickets = state.filteredTickets.sort(function (a, b) {
           var nameA = a[sortBy],
             nameB = b[sortBy]
           if (nameA < nameB) return -1
@@ -150,13 +150,33 @@ export const ticketSlice = createSlice({
           return 0
         })
       } else {
-        state.tickets = state.tickets.sort(function (a, b) {
+        state.filteredTickets = state.filteredTickets.sort(function (a, b) {
           var nameA = a[sortBy],
             nameB = b[sortBy]
           if (nameA > nameB) return -1
           if (nameA < nameB) return 1
           return 0
         })
+      }
+    },
+    filterTickets: (state, action) => {
+      return {
+        ...state,
+        filteredTickets: [...state.tickets].filter(
+          (ticket) =>
+            ticket.fullName
+              .toLowerCase()
+              .includes(action.payload.name.toLowerCase()) &&
+            ticket.product
+              .toLowerCase()
+              .includes(action.payload.product.toLowerCase()) &&
+            ticket.priority
+              .toLowerCase()
+              .includes(action.payload.priority.toLowerCase()) &&
+            ticket.status
+              .toLowerCase()
+              .includes(action.payload.status.toLowerCase())
+        ),
       }
     },
   },
@@ -214,6 +234,7 @@ export const ticketSlice = createSlice({
       state.isLoading = false
       state.isSuccess = true
       state.tickets = action.payload
+      state.filteredTickets = action.payload
     })
     builder.addCase(getAdminTickets.rejected, (state, action) => {
       state.isLoading = false
@@ -223,5 +244,5 @@ export const ticketSlice = createSlice({
   },
 })
 
-export const { reset, sortItems } = ticketSlice.actions
+export const { reset, sortItems, filterTickets } = ticketSlice.actions
 export default ticketSlice.reducer

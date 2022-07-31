@@ -30,6 +30,10 @@ const ticketSchema = mongoose.Schema(
       enum: ['new', 'open', 'closed'],
       default: 'new',
     },
+    images: {
+      data: Buffer,
+      contentType: String,
+    },
   },
   {
     timestamps: true,

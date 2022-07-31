@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
+import {
+  FaArrowDown,
+  FaArrowUp,
+  FaFilter,
+  FaRegTimesCircle,
+} from 'react-icons/fa'
 import {
   getAdminTickets,
   reset,
   sortItems,
 } from '../../features/tickets/ticketSlice'
+import Sidebar from '../../components/Sidebar'
 import Spinner from '../../components/Spinner'
 import { BackButton } from '../../components/BackButton'
 import AdminTicketItem from '../../components/AdminTicketItem'
@@ -13,8 +19,17 @@ import AdminTicketItem from '../../components/AdminTicketItem'
 function AdminTickets() {
   const [filter, setFilter] = useState('status')
   const [filterDirection, setFilterDirection] = useState('asc')
+  const [sidebarStatus, setSidebarStatus] = useState('closed')
 
-  const { tickets, isLoading, isSuccess } = useSelector(
+  //sidebar query data
+  const [queryData, setQueryData] = useState({
+    name: '',
+    product: '',
+    priority: '',
+    status: '',
+  })
+
+  const { filteredTickets, isLoading, isSuccess } = useSelector(
     (state) => state.tickets
   )
 
@@ -51,8 +66,32 @@ function AdminTickets() {
     setFilterDirection(direction)
   }
 
+  const toggleSidebarStatus = () => {
+    if (sidebarStatus === 'closed') {
+      setSidebarStatus('open')
+    } else {
+      setSidebarStatus('closed')
+    }
+  }
+
+  const resetQueryData = () => {
+    setQueryData({
+      name: '',
+      product: '',
+      priority: '',
+      status: '',
+    })
+  }
+
   return (
     <>
+      <Sidebar
+        sidebarStatus={sidebarStatus}
+        setSidebarStatus={setSidebarStatus}
+        queryData={queryData}
+        setQueryData={setQueryData}
+        resetQueryData={resetQueryData}
+      />
       <div className='ticket-control'>
         <div className='back-btn'>
           <BackButton url='/admin' />
@@ -89,6 +128,16 @@ function AdminTickets() {
         </label>
       </div>
 
+      <div className='filter-buttons'>
+        <button onClick={() => toggleSidebarStatus()} className='btn'>
+          <FaFilter /> Filter
+        </button>
+        <button
+          className='btn filter-close-btn'
+          onClick={() => resetQueryData()}>
+          <FaRegTimesCircle />
+        </button>
+      </div>
       <h1>All Tickets</h1>
       <div className='tickets'>
         <div className='ticket-headings ticket-headings-admin'>
@@ -98,7 +147,7 @@ function AdminTickets() {
           <div>Status</div>
           <div></div>
         </div>
-        {tickets.map((ticket) => (
+        {filteredTickets.map((ticket) => (
           <AdminTicketItem key={ticket._id} ticket={ticket} />
         ))}
       </div>

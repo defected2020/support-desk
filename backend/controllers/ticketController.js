@@ -1,7 +1,20 @@
 const asyncHandler = require('express-async-handler')
-
 const User = require('../models/userModel')
 const Ticket = require('../models/ticketModel')
+const ImageModel = require('../models/imageModel')
+const multer = require('multer')
+
+// storage
+const Storage = multer.diskStorage({
+  destination: 'backend/uploads',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  },
+})
+
+const upload = multer({
+  storage: Storage,
+}).single('image')
 
 // @desc Get user tickets
 // @route GET /api/tickets
@@ -145,6 +158,27 @@ const updateTicket = asyncHandler(async (req, res) => {
   res.status(200).json(updatedTicket)
 })
 
+const postImage = asyncHandler(async (req, res) => {
+  res.send('upload file')
+})
+
+const uploadImages = asyncHandler(async (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      const newImage = new ImageModel({
+        name: req.body.name,
+        image: {
+          data: req.file.filename,
+          contentType: 'image/png',
+        },
+      })
+      newImage.save().then(() => res.send('successfully uploaded'))
+    }
+  })
+})
+
 // @desc Get user tickets
 // @route GET /api/tickets
 // @access Private
@@ -169,4 +203,6 @@ module.exports = {
   deleteTicket,
   updateTicket,
   getAllTickets,
+  postImage,
+  uploadImages,
 }

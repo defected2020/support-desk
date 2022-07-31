@@ -31,9 +31,13 @@ function AdminTicketItem({ ticket }) {
       </div>
       <Link
         to={`/admin/ticket/${ticket._id}`}
-        className='btn btn-reverse btn-sm'>
+        className='btn btn-reverse btn-sm preview-ticket'>
         View
       </Link>
+      <div className='preview-ticket-hidden'>
+        <h6>Description of issue</h6>
+        {ticket.description}
+      </div>
     </div>
   )
 }

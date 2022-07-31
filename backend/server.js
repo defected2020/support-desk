@@ -5,10 +5,25 @@ const colors = require('colors')
 const dotenv = require('dotenv').config()
 const { errorHandler } = require('./middleware/errorMiddleware')
 const connectDB = require('./config/db')
+const multer = require('multer')
 const PORT = process.env.PORT || 8000
+
+const imageModel = require('./models/ticketModel')
 
 //connect to database
 connectDB()
+
+// storage
+const Storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  },
+})
+
+const upload = multer({
+  storage: Storage,
+}).single('testImage')
 
 const app = express()
 
