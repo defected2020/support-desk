@@ -13,9 +13,10 @@ function Register() {
     email: '',
     password: '',
     password2: '',
+    isAdmin: false,
   })
 
-  const { name, email, password, password2 } = formData
+  const { name, email, password, password2, isAdmin } = formData
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -37,10 +38,19 @@ function Register() {
   }, [isError, isSuccess, user, message, navigate, dispatch])
 
   const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }))
+    if (e.target.name === 'isAdmin') {
+      console.log('boo')
+      setFormData((prevState) => ({
+        ...prevState,
+        ['isAdmin']: e.target.checked,
+      }))
+    } else {
+      console.log('what')
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }))
+    }
   }
 
   const onSubmit = (e) => {
@@ -53,6 +63,7 @@ function Register() {
         name,
         email,
         password,
+        isAdmin,
       }
 
       dispatch(register(userData))
@@ -94,33 +105,43 @@ function Register() {
               placeholder='Enter your email'
               required
             />
-            <div className='form-group'>
-              <input
-                type='text'
-                className='form-control'
-                id='password'
-                name='password'
-                value={password}
-                onChange={onChange}
-                placeholder='Enter password'
-                required
-              />
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                className='form-control'
-                id='password2'
-                name='password2'
-                value={password2}
-                onChange={onChange}
-                placeholder='Confirm password'
-                required
-              />
-            </div>
-            <div className='form-group'>
-              <button className='btn btn-block'>Submit</button>
-            </div>
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              className='form-control'
+              id='password'
+              name='password'
+              value={password}
+              onChange={onChange}
+              placeholder='Enter password'
+              required
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='text'
+              className='form-control'
+              id='password2'
+              name='password2'
+              value={password2}
+              onChange={onChange}
+              placeholder='Confirm password'
+              required
+            />
+          </div>
+          <div className='admin-checkbox'>
+            <input
+              type='checkbox'
+              checked={isAdmin}
+              name='isAdmin'
+              id='isAdmin'
+              onChange={onChange}
+            />
+            <label htmlFor='agree'>Create admin account (demo)</label>
+          </div>
+          <div className='form-group'>
+            <button className='btn btn-block'>Submit</button>
           </div>
         </form>
       </section>

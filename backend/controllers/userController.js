@@ -12,7 +12,7 @@ const User = require('../models/userModel')
 //entire function wrapped with asyncHandler
 const registerUser = asyncHandler(async (req, res) => {
   //destructured form req.body
-  const { name, email, password } = req.body
+  const { name, email, password, isAdmin } = req.body
 
   // Validation
   if (!name || !email || !password) {
@@ -35,6 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     name,
     email,
+    isAdmin,
     //sets password as hashedPassword
     password: hashedPassword,
   })
@@ -45,6 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     })
   } else {

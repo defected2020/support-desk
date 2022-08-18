@@ -13,6 +13,7 @@ import {
 } from '../../features/tickets/ticketSlice'
 import Sidebar from '../../components/Sidebar'
 import Spinner from '../../components/Spinner'
+import Pagination from '../../components/Pagination'
 import { BackButton } from '../../components/BackButton'
 import AdminTicketItem from '../../components/AdminTicketItem'
 
@@ -20,6 +21,8 @@ function AdminTickets() {
   const [filter, setFilter] = useState('status')
   const [filterDirection, setFilterDirection] = useState('asc')
   const [sidebarStatus, setSidebarStatus] = useState('closed')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage] = useState(6)
 
   //sidebar query data
   const [queryData, setQueryData] = useState({
@@ -58,10 +61,6 @@ function AdminTickets() {
     setFilter(event)
   }
 
-  if (isLoading) {
-    return <Spinner />
-  }
-
   const changeFilterDirection = (direction) => {
     setFilterDirection(direction)
   }
@@ -82,6 +81,19 @@ function AdminTickets() {
       status: '',
     })
   }
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  // Get current posts
+  let indexOfLastPost = currentPage * postsPerPage
+  let indexOfFirstPost = indexOfLastPost - postsPerPage
+  let currentPosts = filteredTickets.slice(indexOfFirstPost, indexOfLastPost)
+
+  // Change page
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   return (
     <>
@@ -147,10 +159,16 @@ function AdminTickets() {
           <div>Status</div>
           <div></div>
         </div>
-        {filteredTickets.map((ticket) => (
+        {currentPosts.map((ticket) => (
           <AdminTicketItem key={ticket._id} ticket={ticket} />
         ))}
       </div>
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={filteredTickets.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
     </>
   )
 }

@@ -10,7 +10,12 @@ function NoteItem({ note }) {
         color: note.isStaff ? '#fff' : '#000',
       }}>
       <h3>
-        Note from {note.isStaff ? <span>Staff</span> : <span>{user.name}</span>}
+        Note from{' '}
+        {note.isStaff ? (
+          <span>Support Agent {user.name}</span>
+        ) : (
+          <span>{user.name}</span>
+        )}
       </h3>
       <p>{note.text}</p>
       <div className='note-date'>
